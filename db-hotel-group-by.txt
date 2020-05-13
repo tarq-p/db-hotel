@@ -1,0 +1,32 @@
+
+1)  Conta gli ospiti raggruppandoli per anno di nascita
+
+SELECT COUNT(id) as `Ospiti`, YEAR(`date_of_birth`) FROM `ospiti` GROUP BY YEAR(`date_of_birth`);
+
+
+2) Somma i prezzi dei pagamenti raggruppandoli per status
+
+SELECT SUM(price), `status` FROM `pagamenti` GROUP BY `status`;
+
+
+3) Conta quante volte è stata prenotata ogni stanza
+
+SELECT COUNT(id), stanza_id FROM prenotazioni GROUP BY (`stanza_id`);
+
+
+4) Fai una analisi per vedere se ci sono ore in cui le prenotazioni sono più frequenti
+
+SELECT TIME_FORMAT(created_at, "%H") AS orario, COUNT(id) AS Prenotazioni FROM prenotazioni GROUP BY TIME_FORMAT(created_at, "%H");
+
+
+5) Quante prenotazioni ha fatto l’ospite che ha fatto più prenotazioni?
+
+SELECT COUNT(id) as `Numero Prenotazioni`, `ospite_id` FROM `prenotazioni_has_ospiti` GROUP BY `ospite_id` ORDER BY COUNT(id) DESC LIMIT 1;
+
+
+6) Quante prenotazioni ha fatto l’ospite che ha fatto più prenotazioni?
+SELECT COUNT(`prenotazioni_has_ospiti`.`id`) as `Prenotazioni`,`ospite_id`,`ospiti`.`name`,`ospiti`.`lastname` FROM `prenotazioni_has_ospiti`
+INNER JOIN `ospiti`
+on `ospiti`.`id` = `prenotazioni_has_ospiti`.`ospite_id`
+GROUP BY `prenotazioni_has_ospiti`.`ospite_id`
+HAVING COUNT(`prenotazioni_has_ospiti`.`id`) > 2;
